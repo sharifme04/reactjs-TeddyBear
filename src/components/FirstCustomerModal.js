@@ -1,35 +1,26 @@
 import React, { Component } from 'react';
-import { Modal } from 'react-bootstrap';
-import YouTube from 'react-youtube';
+import ModalComponent from './ModalComponent';
 import playimage from '../images/play-button-md.png';
 
 class FirstCustomerModal extends Component {
   constructor(props){
     super(props);
-    this.state = { show: false };
-    this._handleHide = this._handleHide.bind(this);
+    this.child = React.createRef();
 }
-  _handleHide() {
-    this.setState({ show: false });
-  }
 
-  _onStart(event) {
-    event.target.pauseVideo();
-  }
+_onClick = () => {
+  this.child.current._handleShow();
+};
+
   render() {
     let customer = this.props.customer;
-    const opts = {
-        height: '500',
-        width: '840',
-        playerVars: { autoplay: 1  }
-    };
     return (
       <div className="row top-modal">
       <div className="col-md-12">
         <div className="row">
           <div className="col-md-6">
-            <img key={customer.id} src={customer.video} onClick={() => this.setState({ show: true })} className="img-rounded first-modal-image" alt="customer" />
-            <img className="playimage" src={playimage} onClick={() => this.setState({ show: true })} alt="playimage"/>
+            <img key={customer.id} src={customer.video} onClick={this._onClick} className="img-rounded first-modal-image" alt="customer" />
+            <img className="playimage" src={playimage} onClick={this._onClick} alt="playimage"/>
             </div>
             <div className="col-md-6">
               <div className="row quotes-row">
@@ -48,25 +39,7 @@ class FirstCustomerModal extends Component {
               </div>
             </div>
         </div>
-        <div className="modal-container" style={{ height: 200 }}>
-          <Modal
-            show={this.state.show}
-            onHide={this._handleHide}
-            container={this}
-            aria-labelledby="contained-modal-title"
-          >
-            <Modal.Header closeButton>
-            </Modal.Header>
-            <Modal.Body>
-             <YouTube
-               videoId= {customer.youtube}
-               opts={opts}
-               onReady={this._onStart}
-             />
-
-            </Modal.Body>
-          </Modal>
-        </div>
+         <ModalComponent ref={this.child}  customer={customer}/>
       </div>
       </div>
     );
