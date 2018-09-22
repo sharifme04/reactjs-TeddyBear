@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state ={data:customers, customerfilter:" "};
-    this._handleClick = this._handleClick.bind(this);
+    //this._handleClick = this._handleClick.bind(this);
 }
 
   _handleClick(value){
